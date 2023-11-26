@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ОГО</title>
+<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=zORRJR3bHw1GrM3GXH797OC3EbthlBJt49qpVDfqYE4TBlua9pbA4qY1kRKDULuVebyxv5yku9czseonaeWDkePMZr1kuI0Mp0elCarc84r5ZMu2YcF01PDqXULuI1lHGeiHYL3bTv_g--y8zi3fFUZXcSZSDna-tCGusMO1w5osn7adrEtcEkhhs4o9T5t9BbT_x39T5heN5pNqRLyoceA3_rMvU93SxdKXGwv6ErMAvMoBcVkNRwfikyTkjTy1TzCFoSRQiiOJo5u6gj5Cua3iDOKKk-6YtlENDTUn2lAbf4a6yaMm72jUDd4ieSmRE2qBp8PHbP32HNlhGpFn5V5QNdb0aCHL5j-jebvqtsGXN9nFIEhAh4Y_KUwtoIu_-4QYuFswd3E7mCm5V5RCDgMpfp8zDadMcRnGR9UMfdCgHZJ4_TUWpQJgsvFR1VnLVE6MovGGN58S3EmPMfUg_iiOsNJ_JLVhc03_boyhARrxkaEbwVaIgYqfZlpyVzZu5nLRvyBnUOvqRKgVdiB0Ly3V7iuwC1gJa8BGoN3wttMJDfDfjTgOyq68ho5TdqlSU925vMzCq27JGaRO_mmhNdtyBPRsL2lKTAkpS4P8hCGmqXBC-mex1ROEcLQdE7LgN-jhrlFDJIcrdbLWN-ArCPqzmO_REbJdz3BD4d05xxijIsCP9x0A1l85KBMirGXc" charset="UTF-8"></script></head>
+<body>
+    <canvas id="clock" width="400" height="400"></canvas>
+
+    <script>
+        let canvas = document.getElementById("clock");
+        let context = canvas.getContext("2d");
+        let radius = canvas.width / 2;
+
+        function drawClock() {
+  // Clear the canvas
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  // само
+  context.beginPath();
+  context.arc(radius, radius, radius - 10, 0, 2 * Math.PI);
+  context.lineWidth = 5;
+  context.strokeStyle = "black";
+  context.stroke();
+  context.closePath();
+
+  // значения
+  let now = new Date();
+  let hour = now.getHours();
+  let minute = now.getMinutes();
+  let second = now.getSeconds();
+
+  // час
+  context.beginPath();
+  let hourAngle = (hour % 12) * 30 + (minute / 60) * 30;
+  drawHand(hourAngle, radius * 0.5, 10, "blue");
+  context.closePath();
+
+  //  минутка
+  context.beginPath();
+  let minuteAngle = minute * 6 + (second / 60) * 6;
+  drawHand(minuteAngle, radius * 0.7, 5, "blue");
+  context.closePath();
+
+  // секунда
+  context.beginPath();
+  let secondAngle = second * 6;
+  drawHand(secondAngle, radius * 0.8, 1, "blue");
+  context.closePath();
+
+  // центр
+  context.beginPath();
+  context.arc(radius, radius, 5, 0, 2 * Math.PI);
+  context.fillStyle = "blue";
+  context.fill();
+  context.closePath();
+}
+
+function drawHand(angle, length, width, color) {
+  let radians = (angle - 90) * (Math.PI / 180);
+  let x = radius + length * Math.cos(radians);
+  let y = radius + length * Math.sin(radians);
+  context.lineWidth = width;
+  context.strokeStyle = color;
+  context.moveTo(radius, radius);
+  context.lineTo(x, y);
+  context.stroke();
+}
+        setInterval(drawClock, 1000);
+        drawClock();
+    </script>
+</body>
+</html>
